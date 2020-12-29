@@ -9,7 +9,7 @@ DOCKER_PASSWORD=$3
 dotnet publish -c Release -o app/publish
 
 # Build the Docker images
-docker build -t burja8x/rso3:$TAG Rso3/.
+docker build -t burja8x/rso3:$TAG .
 docker tag burja8x/rso3:$TAG burja8x/rso3:latest
 
 # Login to Docker Hub and upload images
