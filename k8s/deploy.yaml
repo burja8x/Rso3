@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tttt-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: report-aaa
+  template:
+    metadata:
+      labels:
+        app: report-aaa
+    spec:
+      containers:
+        - image: burja8x/rsosem1:26.1
+          name: report-aaa
+          env:
+            - name: APP_CONFIG_CONN_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: config-conn-string
+                  key: app-config-conn-string
+            - name: hello
+              value: 589347956834976fsag
+          ports:
+            - containerPort: 443
+              name: server-https
+              protocol: TCP
+            - containerPort: 80
+              name: server-http
+              protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: report-aaa
+spec:
+  type: LoadBalancer
+  ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: server-https
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: server-http
+  selector:
+    app: report-aaa
