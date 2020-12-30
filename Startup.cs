@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -27,6 +28,11 @@ namespace Rso3
         {
             services.AddAzureAppConfiguration();
             services.Configure<Settings>(Configuration.GetSection("TestApp:Settings"));
+
+            services.AddHealthChecks().AddCheck<RandomHealthCheck>("Random check");
+
+            services.AddHealthChecks().AddSqlServer(Configuration.GetSection("TestApp:Settings:SQLConn").Value);
+
             services.AddControllers();
         }
 
@@ -48,6 +54,8 @@ namespace Rso3
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/health/ready");
+                endpoints.MapHealthChecks("/health/live");
                 endpoints.MapControllers();
             });
         }

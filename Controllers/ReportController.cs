@@ -32,6 +32,20 @@ namespace Rso3.Controllers
             return new string[] { "Test", _settings.Message };
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<string> Get(int id)
+        { 
+            if (Microsoft.Extensions.Diagnostics.HealthChecks.RandomHealthCheck.healthy) {
+                Microsoft.Extensions.Diagnostics.HealthChecks.RandomHealthCheck.healthy = false;
+            }
+            else {
+                Microsoft.Extensions.Diagnostics.HealthChecks.RandomHealthCheck.healthy = true;
+            }
+
+            return $"RandomHealthCheck .... healthy = {Microsoft.Extensions.Diagnostics.HealthChecks.RandomHealthCheck.healthy}";
+        }
+
+
         // GET: ReportController/Details/5
         public ActionResult Details(int id)
         {

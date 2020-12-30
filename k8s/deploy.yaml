@@ -13,7 +13,7 @@ spec:
         app: report-aaa
     spec:
       containers:
-        - image: burja8x/rsosem1:26.1
+        - image: burja8x/rso3:8.1
           name: report-aaa
           env:
             - name: APP_CONFIG_CONN_STRING
@@ -30,6 +30,19 @@ spec:
             - containerPort: 80
               name: server-http
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: server-http
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: health/ready
+              port: server-http
+              successThreshold: 3
 
 ---
 

@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 
 namespace Rso3
 {
@@ -24,9 +23,11 @@ namespace Rso3
                     webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
                     {
                         //var settings = config.Build();
+                        //var connection = settings.GetConnectionString("AppConfig");
+                        var connection = Environment.GetEnvironmentVariable("APP_CONFIG_CONN_STRING");
                         config.AddAzureAppConfiguration(options =>
                         {
-                            options.Connect(Environment.GetEnvironmentVariable("APP_CONFIG_CONN_STRING"))
+                            options.Connect(connection)
                                    .ConfigureRefresh(refresh =>
                                    {
                                        refresh.Register("TestApp:Settings:Message", refreshAll: true)
