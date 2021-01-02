@@ -46,7 +46,7 @@ namespace Rso3
 
             app.UseAzureAppConfiguration();
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

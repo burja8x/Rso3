@@ -13,7 +13,7 @@ spec:
         app: report-bbb
     spec:
       containers:
-        - image: burja8x/rso3:9.1
+        - image: burja8x/rso3:11.1
           name: report-bbb
           env:
             - name: APP_CONFIG_CONN_STRING
