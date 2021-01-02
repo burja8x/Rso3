@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Rso3.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

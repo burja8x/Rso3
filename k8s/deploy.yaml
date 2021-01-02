@@ -1,65 +1,44 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tttt-deployment
+  name: mmmm-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: report-aaa
+      app: report-bbb
   template:
     metadata:
       labels:
-        app: report-aaa
+        app: report-bbb
     spec:
       containers:
-        - image: burja8x/rso3:8.1
-          name: report-aaa
+        - image: burja8x/rso3:9.1
+          name: report-bbb
           env:
             - name: APP_CONFIG_CONN_STRING
               valueFrom:
                 secretKeyRef:
                   name: config-conn-string
                   key: app-config-conn-string
-            - name: hello
+            - name: hello1
               value: 589347956834976fsag
           ports:
-            - containerPort: 443
-              name: server-https
-              protocol: TCP
             - containerPort: 80
               name: server-http
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /health/live
-              port: server-http
-            initialDelaySeconds: 20
-            periodSeconds: 5
-            timeoutSeconds: 1
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: health/ready
-              port: server-http
-              successThreshold: 3
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: report-aaa
+  name: report-bbb
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
-    - name: https
-      port: 443
-      protocol: TCP
-      targetPort: server-https
-    - name: http
-      port: 80
+    - port: 80
       protocol: TCP
       targetPort: server-http
   selector:
-    app: report-aaa
+    app: report-bbb
