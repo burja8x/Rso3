@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mmmm-deployment
+  name: report-bbb
 spec:
   replicas: 1
   selector:
@@ -25,9 +25,20 @@ spec:
               value: 589347956834976fsag
           ports:
             - containerPort: 80
-              name: server-http
-              protocol: TCP
-
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 80
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: health/ready
+              port: 80
+            initialDelaySeconds: 20
+            periodSeconds: 3
 ---
 
 apiVersion: v1
@@ -38,7 +49,5 @@ spec:
   type: ClusterIP
   ports:
     - port: 80
-      protocol: TCP
-      targetPort: server-http
   selector:
     app: report-bbb

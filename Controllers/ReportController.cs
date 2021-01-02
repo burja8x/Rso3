@@ -29,6 +29,7 @@ namespace Rso3.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            Console.WriteLine("HI :)");
             return new string[] { "Test", _settings.Message };
         }
 
